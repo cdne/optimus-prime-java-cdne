@@ -3,35 +3,37 @@ package com.codecool;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main {
+public class Sieve {
     HashMap<Integer, Boolean> result = new HashMap<>();
     int[] primeNumbers = {2, 3, 5, 8};
 
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.sieve(1000);
+        Sieve sieve = new Sieve();
+        sieve.generateNumbers(100);
+
+        // for each prime number call getPrimeNumbers
+        for (int primeNumber : sieve.primeNumbers) {
+            sieve.getPrimeNumbers(primeNumber);
+        }
+
+        // display prime numbers
+        sieve.displayPrimeNumbers(sieve.result);
     }
 
 
-    /** Generate numbers from 1 to n
-     *
+    /**
+     * Generate numbers from 1 to n
+     * <p>
      * In hashmap for each number key we assign true value
+     *
      * @param n max value
      */
-    void sieve(int n) {
+    void generateNumbers(int n) {
         // add numbers hashmap
         for (int i = 2; i <= n; i++) {
             result.put(i, true);
         }
-
-        // for each prime number call getPrimeNumbers
-        for (int primeNumber : primeNumbers) {
-            getPrimeNumbers(primeNumber);
-        }
-
-        // display prime numbers
-        displayPrimeNumbers(result);
     }
 
     /** Check if hashmap key is not a prime number
