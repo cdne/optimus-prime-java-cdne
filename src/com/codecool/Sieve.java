@@ -1,63 +1,47 @@
 package com.codecool;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sieve {
-    HashMap<Integer, Boolean> result = new HashMap<>();
-    int[] primeNumbers = {2, 3, 5, 8};
+    static int n;
+    static boolean[] isPrime;
+    static List<Integer> primeNumbers = new ArrayList<>();
 
 
     public static void main(String[] args) {
-        Sieve sieve = new Sieve();
-        sieve.generateNumbers(100);
+        n = 100;
+        isPrime = new boolean[n + 1];
+        setBooleanValue(n);
+        checkIfNumberIsPrime();
+        generateNumbers();
+        System.out.println("Prime numbers: " + primeNumbers);
 
-        // for each prime number call getPrimeNumbers
-        for (int primeNumber : sieve.primeNumbers) {
-            sieve.getPrimeNumbers(primeNumber);
-        }
-
-        // display prime numbers
-        sieve.displayPrimeNumbers(sieve.result);
     }
 
-
-    /**
-     * Generate numbers from 1 to n
-     * <p>
-     * In hashmap for each number key we assign true value
-     *
-     * @param n max value
-     */
-    void generateNumbers(int n) {
-        // add numbers hashmap
+    static void setBooleanValue(int n) {
         for (int i = 2; i <= n; i++) {
-            result.put(i, true);
+            isPrime[i] = true;
         }
     }
 
-    /** Check if hashmap key is not a prime number
-     *
-     * @param primeNumber prime numbers 2, 3, 5 and 7
-     */
-    void getPrimeNumbers(int primeNumber) {
-        for (Map.Entry<Integer, Boolean> entry : result.entrySet()) {
-            if ((entry.getKey() % primeNumber == 0) && entry.getKey() != primeNumber) {
-                entry.setValue(false);
+    static void checkIfNumberIsPrime() {
+        for (int number = 2; number * number <= n; number++) {
+            if (isPrime[number]) {
+                for (int i = number; number * i <= n; i++) {
+                    isPrime[number * i] = false;
+                }
             }
         }
     }
 
-    /** Display all prime numbers
-     * When the hashmap value is true it means that key is a prime number
-     * @param result prime numbers
-     */
-    void displayPrimeNumbers(HashMap<Integer, Boolean> result) {
-        for (Map.Entry<Integer, Boolean> entry : result.entrySet()) {
-            if (entry.getValue()) {
-                System.out.print(entry.getKey() + " ");
+    static void generateNumbers() {
+        for (int i = 2; i <= n; i++) {
+            if (isPrime[i]) {
+                primeNumbers.add(i);
             }
         }
     }
+
 
 }
